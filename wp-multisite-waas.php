@@ -67,6 +67,25 @@ require_once __DIR__ . '/vendor/woocommerce/action-scheduler/action-scheduler.ph
 require_once __DIR__ . '/inc/traits/trait-singleton.php';
 
 /**
+ * Fix for "Class 'WP_Ultimo\Database\Sites\Site_Query' not found" error
+ * Ensure all necessary database classes are loaded explicitly
+ */
+// BerlinDB core classes
+if (file_exists(__DIR__ . '/vendor/berlindb/core/src/Database/Base.php')) {
+	require_once __DIR__ . '/vendor/berlindb/core/src/Database/Base.php';
+	require_once __DIR__ . '/vendor/berlindb/core/src/Database/Schema.php';
+	require_once __DIR__ . '/vendor/berlindb/core/src/Database/Query.php';
+}
+
+// WP Ultimo database engine classes
+require_once __DIR__ . '/inc/database/engine/class-schema.php';
+require_once __DIR__ . '/inc/database/engine/class-query.php';
+
+// Site-specific database classes
+require_once __DIR__ . '/inc/database/sites/class-sites-schema.php';
+require_once __DIR__ . '/inc/database/sites/class-site-query.php';
+
+/**
  * Setup activation/deactivation hooks
  */
 WP_Ultimo\Hooks::init();
